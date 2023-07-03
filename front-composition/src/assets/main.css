@@ -15,21 +15,22 @@ a,
   transition: 0.4s;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+fieldset {
+  margin: 1em auto;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+input, button, select {
+  padding: .5em;
+}
+input, select {
+  border: none;
+  border-bottom: 2px solid #ccc;
+}
+input:focus, select:focus {
+  outline: none;
+  border-bottom: 2px solid #2196f3;
 }

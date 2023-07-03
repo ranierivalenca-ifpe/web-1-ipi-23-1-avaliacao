@@ -3,7 +3,7 @@ require 'conf/init.php';
 
 $category_id = $_GET['category_id'] ?? '%';
 
-$sql = "SELECT lost_items.*, categories.name as category FROM lost_items JOIN categories ON lost_items.category_id = categories.id WHERE lost_items.category_id LIKE :cat_id";
+$sql = "SELECT lost_items.*, categories.name as category FROM lost_items JOIN categories ON lost_items.category_id = categories.id WHERE lost_items.category_id LIKE :cat_id ORDER BY lost_items.id DESC";
 $statement = $pdo->prepare($sql);
 $statement->execute(['cat_id' => $category_id]);
 $items = $statement->fetchAll(PDO::FETCH_ASSOC);

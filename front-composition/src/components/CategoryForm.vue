@@ -9,7 +9,7 @@ function submit() {
     const data = new FormData();
     data.append('name', name.value);
 
-    fetch('http://127.0.0.1:8080/add_category.php', {
+    fetch('http://localhost:8080/add_category.php', {
         method: 'POST',
         body: data
     })
@@ -28,7 +28,10 @@ function submit() {
 
 <template>
     <form @submit.prevent="submit">
-        <input type="text" v-model="name">
-        <button>Enviar</button>
+        <fieldset>
+            <legend>Adicionar categoria</legend>
+            <input type="text" required v-model="name" name="category" placeholder="Category">
+            <button>Enviar</button>
+        </fieldset>
     </form>
 </template>

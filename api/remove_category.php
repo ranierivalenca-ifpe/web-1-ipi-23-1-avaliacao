@@ -1,10 +1,10 @@
 <?php
 require 'conf/init.php';
 
-$id = $_POST['id'];
+$id = $_GET['id'];
 
 try {
-    $sql = 'DELETE FROM lost_items WHERE id = :id';
+    $sql = 'DELETE FROM categories WHERE id = :id';
     $statement = $pdo->prepare($sql);
     $statement->bindValue(':id', $id, PDO::PARAM_INT);
     $statement->execute();

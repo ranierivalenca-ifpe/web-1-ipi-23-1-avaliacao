@@ -1,19 +1,21 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 
-const categories = ref([]);
 const name = ref('');
 const description = ref('');
 const category = ref('');
-const emit = defineEmits(['item-added'])
+const owner = ref('');
+const contact = ref('');
 
-onMounted(() => {
-    fetch('http://127.0.0.1:8080/get_categories.php')
-        .then(res => res.json())
-        .then(data => {
-        categories.value = data
-        })
+const props = defineProps({
+    'categories': Array
 })
+
+console.group('ItemForm')
+console.log(props.categories)
+console.groupEnd()
+
+const emit = defineEmits(['item-added'])
 
 function submit() {
     const body = new FormData();
@@ -21,10 +23,11 @@ function submit() {
     body.append('name', name.value);
     body.append('description', description.value);
     body.append('category_id', category.value);
-    body.append('date', new Date().toISOString().slice(0, 19).replace('T', ' '))
+    body.append('owner', owner.value);
+    body.append('contact', contact.value);
     body.append('status', 'Perdido')
 
-    fetch('http://127.0.0.1:8080/add_item.php', {
+    fetch('http://localhost:8080/add_item.php', {
         method: 'POST',
         body
     })
@@ -38,6 +41,8 @@ function submit() {
         name.value = ''
         description.value = ''
         category.value = ''
+        owner.value = ''
+        contact.value = ''
         emit('item-added', data.item)
     })
 }
@@ -46,13 +51,20 @@ function submit() {
 
 <template>
     <form @submit.prevent="submit">
-        <input type="text" v-model="name">
-        <input type="text" v-model="description">
-        <select v-model="category">
-            <option v-for="category in categories" :key="category.id" :value="category.id">
-                {{ category.name }}
-            </option>
-        </select> 
-        <button>Enviar</button>
+        <fieldset>
+            <legend>Adicionar item</legend>
+
+            <input type="text" v-model="name" name="name" placeholder="Name">
+            <input type="text" v-model="description" name="description" placeholder="Description">
+            <input type="text" v-model="owner" name="owner" placeholder="Owner">
+            <input type="text" v-model="contact" name="contact" placeholder="Contact">
+            <select v-model="category">
+                <option disabled selected="selected">Escolha uma categoria</option>
+                <option v-for="category in categories" :key="category.id" :value="category.id">
+                    {{ category.name }}
+                </option>
+            </select> 
+            <button>Enviar</button>
+        </fieldset>
     </form>
 </template>
